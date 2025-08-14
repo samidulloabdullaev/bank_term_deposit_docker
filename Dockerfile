@@ -12,11 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the specific project directories and files as requested.
 # The project structure is replicated inside the container.
-COPY data ./data
-COPY models ./models
-COPY preprocessing ./preprocessing
-COPY ui ./ui
-COPY utils ./utils
+COPY . .
 
 # Expose the port that the Gradio app will run on.
 # The default port for Gradio is 7860.

@@ -5,7 +5,6 @@ data/test_processed.csv
 data/train_processed.csv
 data/submission.csv
 data/sample_submission1.csv
-best_model.pkl
 *.egg-info
 
 # Virtual environments
