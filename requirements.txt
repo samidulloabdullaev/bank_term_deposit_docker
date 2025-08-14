@@ -1,0 +1,19 @@
+# requirements.txt
+pandas==2.3.1
+numpy==2.3.0
+scikit-learn==1.7.1
+matplotlib==3.10.5
+seaborn==0.13.0
+pytest==8.0.0
+pytest-cov==6.2.0
+jupyter==1.0.0
+ipython==7.0.0
+requests==2.22.0
+fastapi==0.116.1
+uvicorn==0.34.0
+gradio==5.42.0
+joblib==1.5.1
+xgboost==3.0.0
+lightgbm==4.6.0
+optuna==4.4.0
+pydantic==2.8.2
