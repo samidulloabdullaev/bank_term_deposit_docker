@@ -10,6 +10,7 @@ import lightgbm as lgb
 from sklearn.model_selection import StratifiedKFold, train_test_split
 from sklearn.metrics import log_loss, roc_auc_score
 import joblib
+from preprocess import convert_object_to_category
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -23,6 +24,11 @@ def main() -> None:
     logging.info("Loading preprocessed data...")
     train = pd.read_csv('data/train_processed.csv')
     test = pd.read_csv('data/test_processed.csv')
+
+    # convert object columns to category
+    logging.info("Converting object columns to category...")
+    train = convert_object_to_category(train)
+    test = convert_object_to_category(test)
 
     X = train.drop(columns=['y'])
     y = train['y']
@@ -131,19 +137,17 @@ def main() -> None:
     
     # Save the models
     logging.info("Saving the trained models...")    
-    joblib.dump(model_lgb, 'models/model_lgb.pkl')
-    joblib.dump(model_lgb2, 'models/model_lgb2.pkl')
-    logging.info("Models saved successfully.")
+    
     # Save the predictions
     logging.info("Saving best model predictions...")
 
     if np.mean(logloss_lgb) < np.mean(logloss_lgb2):
         logging.info("Using model_lgb for predictions.")
-        joblib.dump(model_lgb, 'models/best_model.pkl')
+        joblib.dump(model_lgb, 'best_model.pkl')
         lgb_preds = lgb_preds
     else:
         logging.info("Using model_lgb2 for predictions.")
-        joblib.dump(model_lgb2, 'models/best_model.pkl')
+        joblib.dump(model_lgb2, 'best_model.pkl')
         lgb_preds = lgb_preds2
     
 
