@@ -20,4 +20,4 @@ EXPOSE 8000
 
 # Define the command to run the Gradio application.
 # The host 0.0.0.0 makes the app accessible from outside the container.
-CMD ["python", "ui/gradio_app.py"]
+CMD ["python", "gradio_app.py"]
