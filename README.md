@@ -103,26 +103,17 @@ You can then access the Gradio application in your browser at `http://localhost:
 The project's dependencies are listed in `requirements.txt`.
 
 ```plaintext
-# requirements.txt
-python==3.12.0
 pandas==2.3.1
-numpy==2.3.0
-scikit-learn==1.7.1
-matplotlib==3.10.5
-seaborn==0.13.0
-pytest==8.0.0
-pytest-cov==6.2.0
-jupyter==1.0.0
-ipython==7.0.0
-requests==2.22.0
-fastapi==0.116.1
-uvicorn==0.34.0
-gradio==5.42.0
-joblib==1.5.1
-xgboost==3.0.0
-lightgbm==4.6.0
-optuna==4.4.0
-pydantic==2.8.2
+numpy>=2.0.2
+scikit-learn>=1.6.1
+matplotlib>=3.5.5
+requests>=2.12.0
+fastapi>=0.106.1
+uvicorn>=0.30.0
+gradio==4.44.0
+joblib>=1.3.1
+lightgbm>=4.4.0
+pydantic>=2.6.2
 ```
 
 -----
@@ -133,27 +124,33 @@ The `Dockerfile` is configured to create a lean and efficient image by installin
 
 ```dockerfile
 # Dockerfile
-# Use a slim Python base image for a smaller final image
+# Base slim Python image
 FROM python:3.9-slim
 
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy the requirements file and install dependencies first.
-# This step is separated to leverage Docker's layer caching.
+# Install system dependencies for LightGBM and Pandas
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy only requirements first (for better caching)
 COPY requirements.txt .
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the specific project directories and files as requested.
-COPY data ./data
-COPY models ./models
-COPY preprocessing ./preprocessing
-COPY ui ./ui
-COPY utils ./utils
+# Copy only necessary app files
+COPY gradio_app.py .
+COPY api.py .
+COPY predict.py .
+COPY best_model.pkl .
 
-# Expose the port that the Gradio app will run on.
+# Expose port for Gradio app
 EXPOSE 8000
 
-# Define the command to run the Gradio application.
-CMD ["python", "ui/gradio_app.py"]
+# Default command
+CMD ["python", "gradio_app.py"]
 ```
