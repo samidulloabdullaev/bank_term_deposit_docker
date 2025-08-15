@@ -1,0 +1,23 @@
+# Ignore datasets, notebooks, and cache files
+*.csv
+*.tsv
+*.xlsx
+*.ipynb
+*.pkl
+*.joblib
+*.log
+*.tmp
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+env/
+venv/
+.git
+.gitignore
+.dockerignore
+*.tar.gz
+data/
+notebooks/

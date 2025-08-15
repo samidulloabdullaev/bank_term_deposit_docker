@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Project Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A single-page, vertically scrolling application with distinct sections for different parts of the README. This structure was chosen to transform the linear document into a more explorable, non-linear experience. Key interactions include a clickable file tree and a visual step-by-step workflow, designed to make the technical information more digestible and engaging for developers. -->
+    <!-- Visualization & Content Choices: Report Info: Repository Structure -> Goal: Organize -> Viz: Interactive file tree -> Interaction: Click to expand/collapse and view details -> Justification: More engaging and space-efficient than static text. Report Info: Getting Started -> Goal: Explain Process -> Viz: Visual step-by-step guide -> Interaction: Follow numbered steps -> Justification: Clarifies the sequence of actions better than a simple list. Report Info: Code snippets (Dockerfile, requirements) -> Goal: Inform -> Viz: Code blocks -> Interaction: Copy to clipboard -> Justification: Provides easy access and usability for developers. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .tree li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0.25rem 0 0.25rem 1.5rem;
+            position: relative;
+        }
+        .tree li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0.5rem;
+            border-left: 1px solid #cbd5e1;
+            height: 100%;
+        }
+        .tree li:last-child::before {
+            height: 1.125rem;
+        }
+        .tree li::after {
+            content: '';
+            position: absolute;
+            top: 1.125rem;
+            left: 0.5rem;
+            border-top: 1px solid #cbd5e1;
+            width: 0.75rem;
+            height: 0;
+        }
+        .folder > .folder-name {
+            cursor: pointer;
+        }
+        .folder > ul {
+            display: none;
+        }
+        .folder.open > ul {
+            display: block;
+        }
+        .folder.open > .folder-name .icon {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-teal-700">Machine Learning Application</h1>
+            <p class="mt-4 text-lg text-stone-600">An interactive guide to the bank application project structure, workflow, and components.</p>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Navigation Tabs -->
+            <div class="mb-8 border-b border-stone-200">
+                <nav class="flex flex-wrap -mb-px" id="main-nav">
+                    <button data-target="structure" class="nav-tab active-tab text-teal-600 border-teal-600 mr-2 inline-block p-4 border-b-2 rounded-t-lg font-semibold">📂 Project Structure</button>
+                    <button data-target="workflow" class="nav-tab text-stone-500 hover:text-stone-700 hover:border-stone-300 mr-2 inline-block p-4 border-b-2 rounded-t-lg font-semibold">🚀 Workflow</button>
+                    <button data-target="components" class="nav-tab text-stone-500 hover:text-stone-700 hover:border-stone-300 mr-2 inline-block p-4 border-b-2 rounded-t-lg font-semibold">🧩 Components</button>
+                    <button data-target="code" class="nav-tab text-stone-500 hover:text-stone-700 hover:border-stone-300 mr-2 inline-block p-4 border-b-2 rounded-t-lg font-semibold">📦 Code & Dependencies</button>
+                </nav>
+            </div>
+
+            <!-- Content Sections -->
+            <div id="content-container">
+                <!-- Project Structure Section -->
+                <section id="structure" class="content-section active">
+                    <h2 class="text-3xl font-bold mb-6 text-stone-700">Project Repository Structure</h2>
+                    <p class="text-stone-600 mb-8">This project is organized to separate the different components of the machine learning lifecycle. Click on any file or folder in the interactive tree below to learn more about its purpose and contents.</p>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="md:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-stone-200 h-fit">
+                            <ul class="tree" id="file-tree">
+                                <!-- Tree structure will be injected by JS -->
+                            </ul>
+                        </div>
+                        <div class="md:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <div id="file-description" class="prose max-w-none">
+                                <h3 class="font-semibold text-xl text-teal-700">Select a file or folder</h3>
+                                <p class="text-stone-600">Click on an item in the file tree to see its description here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Workflow Section -->
+                <section id="workflow" class="content-section">
+                     <h2 class="text-3xl font-bold mb-6 text-stone-700">Getting Started: Project Workflow</h2>
+                     <p class="text-stone-600 mb-8">Follow these steps to get the application up and running. This workflow ensures that data is processed and the model is trained before the application is containerized and run.</p>
+                    <div class="space-y-8">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center text-xl font-bold">1</div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-semibold text-stone-800">Preprocess Data</h3>
+                                <p class="mt-2 text-stone-600">Run the main preprocessing script to clean the raw data, perform feature engineering, and prepare the datasets for model training. This step generates `train_processed.csv` and `test_processed.csv`.</p>
+                                <code class="mt-4 block bg-stone-100 text-stone-700 p-3 rounded-md text-sm">python preprocessing/main_preprocess.py</code>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center text-xl font-bold">2</div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-semibold text-stone-800">Train the Model</h3>
+                                <p class="mt-2 text-stone-600">Execute the training script. This will train the LightGBM model using cross-validation on the processed data and save the best-performing model as `best_model.pkl` in the `models` directory.</p>
+                                <code class="mt-4 block bg-stone-100 text-stone-700 p-3 rounded-md text-sm">python models/train.py</code>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center text-xl font-bold">3</div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-semibold text-stone-800">Build Docker Image</h3>
+                                <p class="mt-2 text-stone-600">Use the `Dockerfile` to build a container image for the application. This packages the code, dependencies, and the trained model into a portable environment.</p>
+                                <code class="mt-4 block bg-stone-100 text-stone-700 p-3 rounded-md text-sm">docker build -t bank-ml-app .</code>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center text-xl font-bold">4</div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-semibold text-stone-800">Run the Application</h3>
+                                <p class="mt-2 text-stone-600">Run the Docker container to start the Gradio web application. The `-p` flag maps the container's port to your local machine, making the UI accessible.</p>
+                                <code class="mt-4 block bg-stone-100 text-stone-700 p-3 rounded-md text-sm">docker run -p 8000:8000 bank-ml-app</code>
+                                <p class="mt-3 text-stone-600">Access the app in your browser at <a href="http://localhost:8000" class="text-teal-600 hover:underline">http://localhost:8000</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Components Section -->
+                <section id="components" class="content-section">
+                    <h2 class="text-3xl font-bold mb-6 text-stone-700">Component Deep Dive</h2>
+                    <p class="text-stone-600 mb-8">This project is divided into several key directories, each with a specific responsibility in the ML lifecycle. Explore the cards below to understand the role of each component.</p>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-teal-700">preprocessing/</h3>
+                            <p class="mt-2 text-stone-600">Handles all data preparation tasks. The main script orchestrates feature engineering and data cleaning, transforming raw data into a model-ready format.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-teal-700">models/</h3>
+                            <p class="mt-2 text-stone-600">Contains scripts for model training and prediction. The `train.py` script uses cross-validation to find and save the best LightGBM model.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-teal-700">ui/</h3>
+                            <p class="mt-2 text-stone-600">Houses the user-facing application. `gradio_app.py` creates a user-friendly web interface for interactive model predictions.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-teal-700">api/</h3>
+                            <p class="mt-2 text-stone-600">Provides a backend for programmatic access. `main.py` defines a FastAPI application, exposing a RESTful API for model predictions.</p>
+                        </div>
+                         <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-teal-700">utils/</h3>
+                            <p class="mt-2 text-stone-600">A collection of shared helper functions, such as memory reduction and data sampling, used across the entire project to avoid code duplication.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                            <h3 class="text-xl font-semibold text-teal-700">data/</h3>
+                            <p class="mt-2 text-stone-600">Stores all datasets for the project, including raw input files and the processed data generated by the preprocessing scripts.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Code & Dependencies Section -->
+                <section id="code" class="content-section">
+                    <h2 class="text-3xl font-bold mb-6 text-stone-700">Code & Dependencies</h2>
+                    <p class="text-stone-600 mb-8">The project's environment is defined by the `Dockerfile` and `requirements.txt`. These files ensure that the application runs consistently across different systems.</p>
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-800 mb-4">Dockerfile</h3>
+                            <div class="bg-stone-800 text-white p-4 rounded-lg text-sm relative">
+                                <button onclick="copyToClipboard('dockerfile-content')" class="absolute top-2 right-2 bg-stone-600 hover:bg-stone-500 text-white text-xs px-2 py-1 rounded">Copy</button>
+                                <pre><code id="dockerfile-content" class="language-dockerfile"># Use a slim Python base image
+FROM python:3.9-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project directories
+COPY data ./data
+COPY models ./models
+COPY preprocessing ./preprocessing
+COPY ui ./ui
+COPY utils ./utils
+
+# Expose the Gradio port
+EXPOSE 8000
+
+# Run the Gradio application
+CMD ["python", "ui/gradio_app.py"]</code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-800 mb-4">requirements.txt</h3>
+                            <div class="bg-stone-800 text-white p-4 rounded-lg text-sm h-96 overflow-y-auto relative">
+                                <button onclick="copyToClipboard('requirements-content')" class="absolute top-2 right-2 bg-stone-600 hover:bg-stone-500 text-white text-xs px-2 py-1 rounded">Copy</button>
+                                <pre><code id="requirements-content">python==3.12.0
+pandas==2.3.1
+numpy==2.3.0
+scikit-learn==1.7.1
+matplotlib==3.10.5
+seaborn==0.13.0
+pytest==8.0.0
+pytest-cov==6.2.0
+jupyter==1.0.0
+ipython==7.0.0
+requests==2.22.0
+fastapi==0.116.1
+uvicorn==0.34.0
+gradio==5.42.0
+joblib==1.5.1
+xgboost==3.0.0
+lightgbm==4.6.0
+optuna==4.4.0
+pydantic==2.8.2</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const fileData = {
+            "data": { type: "folder", description: "<h3>data/</h3><p>Stores all datasets for the project. This includes the raw input files (`train.csv`, `test.csv`) and the processed data (`train_processed.csv`, `test_processed.csv`) generated by the preprocessing scripts.</p>" },
+            "data/train.csv": { type: "file", description: "<h3>train.csv</h3><p>The raw training dataset containing features and the target variable.</p>" },
+            "data/test.csv": { type: "file", description: "<h3>test.csv</h3><p>The raw test dataset containing features for which predictions are to be made.</p>" },
+            "data/sample_submission.csv": { type: "file", description: "<h3>sample_submission.csv</h3><p>A file showing the required format for submission files.</p>" },
+            "preprocessing": { type: "folder", description: "<h3>preprocessing/</h3><p>Contains all logic for data preparation. The main script orchestrates feature engineering and data cleaning, transforming raw data into a model-ready format.</p>" },
+            "preprocessing/engineering.py": { type: "file", description: "<h3>engineering.py</h3><p>A collection of functions dedicated to creating new, predictive features from the raw data.</p>" },
+            "preprocessing/processing.py": { type: "file", description: "<h3>processing.py</h3><p>Contains functions for data cleaning, handling missing values, and applying transformations like scaling and encoding.</p>" },
+            "preprocessing/main_preprocess.py": { type: "file", description: "<h3>main_preprocess.py</h3><p>The main script that executes the entire preprocessing pipeline, from reading raw data to saving the processed files.</p>" },
+            "models": { type: "folder", description: "<h3>models/</h3><p>This directory holds all scripts related to model development, including training, prediction, and loading saved models.</p>" },
+            "models/train.py": { type: "file", description: "<h3>train.py</h3><p>The main training script. It uses the processed data to train a LightGBM model with cross-validation and saves the best model artifact.</p>" },
+            "models/load_model.py": { type: "file", description: "<h3>load_model.py</h3><p>A utility script for loading a pre-trained model from a file, typically using `joblib`.</p>" },
+            "models/predict.py": { type: "file", description: "<h3>predict.py</h3><p>Contains functions that use a loaded model to make predictions on new, unseen data.</p>" },
+            "models/best_model.pkl": { type: "file", description: "<h3>best_model.pkl</h3><p>The serialized, trained model artifact generated by `train.py`. This file is loaded by the UI and API for making predictions.</p>" },
+            "ui": { type: "folder", description: "<h3>ui/</h3><p>Contains the user-facing application code.</p>" },
+            "ui/gradio_app.py": { type: "file", description: "<h3>gradio_app.py</h3><p>This script defines a user-friendly web interface using Gradio, allowing for easy, interactive model predictions.</p>" },
+            "api": { type: "folder", description: "<h3>api/</h3><p>The backend for programmatic access to the model.</p>" },
+            "api/main.py": { type: "file", description: "<h3>main.py</h3><p>The entry point for the FastAPI application, which provides a RESTful API for model predictions. An alternative to the Gradio UI for service integrations.</p>" },
+            "utils": { type: "folder", description: "<h3>utils/</h3><p>A collection of shared helper functions used across the project to avoid code duplication.</p>" },
+            "utils/helpers.py": { type: "file", description: "<h3>helpers.py</h3><p>Contains various utility functions, such as memory reduction techniques and data sampling methods.</p>" },
+            "requirements.txt": { type: "file", description: "<h3>requirements.txt</h3><p>Lists all the Python dependencies required to run the project, ensuring a reproducible environment.</p>" },
+            "Dockerfile": { type: "file", description: "<h3>Dockerfile</h3><p>A script containing instructions to build a Docker image of the application. It packages the code, dependencies, and model into a container for easy deployment.</p>" }
+        };
+
+        const projectStructure = {
+            "data": ["train.csv", "test.csv", "sample_submission.csv"],
+            "preprocessing": ["engineering.py", "processing.py", "main_preprocess.py"],
+            "models": ["train.py", "load_model.py", "predict.py", "best_model.pkl"],
+            "ui": ["gradio_app.py"],
+            "api": ["main.py"],
+            "utils": ["helpers.py"],
+            "root": ["requirements.txt", "Dockerfile"]
+        };
+
+        function createFileTree() {
+            const treeContainer = document.getElementById('file-tree');
+            let html = '';
+
+            Object.keys(projectStructure).forEach(folderName => {
+                if (folderName === 'root') {
+                    projectStructure[folderName].forEach(fileName => {
+                        html += `<li><span class="file-name" data-key="${fileName}">${getIcon('file')} ${fileName}</span></li>`;
+                    });
+                } else {
+                    html += `<li class="folder">
+                                <div class="folder-name" data-key="${folderName}">
+                                    <span class="icon transition-transform duration-200 inline-block">▶</span> ${getIcon('folder')} ${folderName}
+                                </div>
+                                <ul>`;
+                    projectStructure[folderName].forEach(fileName => {
+                        const fullPath = `${folderName}/${fileName}`;
+                        html += `<li><span class="file-name" data-key="${fullPath}">${getIcon('file')} ${fileName}</span></li>`;
+                    });
+                    html += `</ul></li>`;
+                }
+            });
+            treeContainer.innerHTML = html;
+        }
+
+        function getIcon(type) {
+            return type === 'folder' ? '📁' : '📄';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createFileTree();
+
+            const fileTree = document.getElementById('file-tree');
+            const descriptionPanel = document.getElementById('file-description');
+            
+            fileTree.addEventListener('click', (e) => {
+                const target = e.target.closest('.folder-name, .file-name');
+                if (!target) return;
+
+                const key = target.dataset.key;
+                
+                if (fileData[key]) {
+                    descriptionPanel.innerHTML = fileData[key].description;
+                }
+
+                if (target.classList.contains('folder-name')) {
+                    target.parentElement.classList.toggle('open');
+                }
+            });
+            
+            const nav = document.getElementById('main-nav');
+            nav.addEventListener('click', (e) => {
+                if (e.target.classList.contains('nav-tab')) {
+                    const targetId = e.target.dataset.target;
+
+                    document.querySelectorAll('.nav-tab').forEach(tab => {
+                        tab.classList.remove('active-tab', 'text-teal-600', 'border-teal-600');
+                        tab.classList.add('text-stone-500', 'hover:text-stone-700', 'hover:border-stone-300');
+                    });
+                    e.target.classList.add('active-tab', 'text-teal-600', 'border-teal-600');
+                    e.target.classList.remove('text-stone-500', 'hover:text-stone-700', 'hover:border-stone-300');
+
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(targetId).classList.add('active');
+                }
+            });
+        });
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
