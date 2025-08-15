@@ -22,6 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY gradio_app.py .
 COPY api.py .
 COPY predict.py .
+COPY utils.py .
+COPY load_model.py .
 COPY models/best_model.pkl ./models/
 
 # Expose port for Gradio app
