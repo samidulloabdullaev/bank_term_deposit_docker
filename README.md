@@ -11,44 +11,33 @@ The project is organized to separate different components of the machine learnin
 ```
 project/
 │
-├── src/
-│   └── bank_ml_app/                 # Main Python package
-│       ├── __init__.py              # Makes this a Python package
-│       │
-│       ├── data/                     # Optional: can keep raw/processed data (not included in build)
-│       │   ├── train.csv             # Raw train dataset
-│       │   ├── test.csv              # Raw test dataset
-│       │   ├── sample_submission.csv # Sample submission file
-│       │   ├── train_processed.csv   # Processed train dataset (generated)
-│       │   └── test_processed.csv    # Processed test dataset (generated)
-│       │
-│       ├── preprocessing/           # Feature engineering and preprocessing modules
-│       │   ├── __init__.py
-│       │   ├── engineering.py        # Feature engineering functions
-│       │   ├── processing.py         # Data preprocessing functions
-│       │   └── main_preprocess.py    # Main script to execute preprocessing
-│       │
-│       ├── models/                  # Model training & inference
-│       │   ├── __init__.py
-│       │   ├── train.py              # Script for training LightGBM
-│       │   ├── load_model.py         # Utility for loading saved models
-│       │   ├── predict.py            # Functions for making predictions
-│       │   └── best_model.pkl        # Trained model (generated)
-│       │
-│       ├── ui/                      # Gradio web application interface
-│       │   ├── __init__.py
-│       │   └── gradio_app.py
-│       │
-│       ├── api/                     # FastAPI entry point
-│       │   ├── __init__.py
-│       │   └── main.py
-│       │
-│       └── utils/                   # Miscellaneous helper functions
-│           ├── __init__.py
-│           └── helpers.py
+├── data/                     # Optional: can keep raw/processed data (not included in build)
+│   ├── train.csv             # Raw train dataset
+│   ├── test.csv              # Raw test dataset
+│   ├── sample_submission.csv # Sample submission file
+│   ├── train_processed.csv   # Processed train dataset (generated)
+│   └── test_processed.csv    # Processed test dataset (generated)
 │
-├── tests/                            # Optional: unit tests / integration tests
-│   └── test_preprocessing.py
+├── preprocessing/           # Feature engineering and preprocessing modules
+│   ├── engineering.py        # Feature engineering functions
+│   ├── processing.py         # Data preprocessing functions
+│   └── main_preprocess.py    # Main script to execute preprocessing
+│
+├── models/                  # Model training & inference
+│   ├── train.py              # Script for training LightGBM
+│   ├── load_model.py         # Utility for loading saved models
+│   ├── predict.py            # Functions for making predictions
+│   └── best_model.pkl        # Trained model (generated)
+│
+├── ui/                      # Gradio web application interface
+│   └── gradio_app.py
+│
+├── api/                     # FastAPI entry point
+│   └── main.py
+│
+└── utils/                   # Miscellaneous helper functions
+│   └── helpers.py
+│
 │
 ├── pyproject.toml                     # Python package build config
 ├── requirements.txt                   # Optional: for non-build installs
@@ -67,13 +56,13 @@ Before building the Docker image, you need to preprocess the data and train the 
 
 ```bash
 # First, run the preprocessing script to generate processed data files
-python preprocessing/main_preprocess.py
+python main_preprocess.py
 
 # Next, run the training script to train the model and save it
-python models/train.py
+python train.py
 ```
 
-This will create `data/train_processed.csv`, `data/test_processed.csv`, and `models/best_model.pkl` which are required for the application to function.
+This will create `data/train_processed.csv`, `data/test_processed.csv`, and `best_model.pkl` which are required for the application to function.
 
 #### 2\. Run with Docker
 
