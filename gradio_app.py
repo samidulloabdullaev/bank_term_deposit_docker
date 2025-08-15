@@ -6,7 +6,7 @@ from predict import predict
 # Logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-MODEL_PATH = "best_model.pkl"
+MODEL_PATH = "models/best_model.pkl"
 
 FEATURE_COLUMNS = [
     "age", "job", "marital", "education", "default",

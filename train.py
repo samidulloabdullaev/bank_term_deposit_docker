@@ -143,11 +143,11 @@ def main() -> None:
 
     if np.mean(logloss_lgb) < np.mean(logloss_lgb2):
         logging.info("Using model_lgb for predictions.")
-        joblib.dump(model_lgb, 'best_model.pkl')
+        joblib.dump(model_lgb, 'models/best_model.pkl')
         lgb_preds = lgb_preds
     else:
         logging.info("Using model_lgb2 for predictions.")
-        joblib.dump(model_lgb2, 'best_model.pkl')
+        joblib.dump(model_lgb2, 'models/best_model.pkl')
         lgb_preds = lgb_preds2
     
 
