@@ -1,59 +1,67 @@
-# gradio_app.py
 """
-This file defines a Gradio application for serving predictions
-from the pre-trained LightGBM model.
+Gradio app for serving predictions from the pre-trained LightGBM model.
 """
 
 import gradio as gr
-import joblib
 import pandas as pd
 import logging
+from predict import predict  # Use the function from predict.py
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Global variable for the model, loaded once on startup
-MODEL = None
 MODEL_PATH = 'models/best_model.pkl'
 
-try:
-    logging.info("Loading model from %s...", MODEL_PATH)
-    MODEL = joblib.load(MODEL_PATH)
-    logging.info("Model loaded successfully.")
-except FileNotFoundError:
-    logging.error("Model file not found at %s. Please train the model first.", MODEL_PATH)
-    MODEL = None
-    
-# This function will be called by the Gradio interface
+# Define the actual features your model expects (order is important)
+FEATURE_COLUMNS = [
+    "age", "job", "marital", "education", "default",
+    "balance", "housing", "loan", "contact", "day",
+    "month", "duration", "campaign", "pdays", "previous", "poutcome"
+]
+
 def make_prediction_for_gradio(*features):
     """
-    Makes a prediction from the Gradio UI input.
+    Takes features from the Gradio UI, creates a DataFrame, and predicts.
     """
-    if MODEL is None:
-        return "Error: Model not loaded. Please ensure it's trained."
-
     try:
-        # Convert tuple of features to a pandas DataFrame
-        # The column names are not important, but the order must be correct
-        input_df = pd.DataFrame([features])
-        
-        # Make a prediction
-        prediction_proba = MODEL.predict_proba(input_df)[:, 1]
-        
-        return f"Predicted Probability: {prediction_proba[0]:.4f}"
-    except Exception as e:
-        return f"An error occurred during prediction: {str(e)}"
+        # Create DataFrame with correct column names
+        input_df = pd.DataFrame([features], columns=FEATURE_COLUMNS)
 
-# Define the Gradio interface
+        # Run prediction with probability output
+        result_df = predict(input_df, MODEL_PATH, proba=True)
+        logging.info("Prediction completed successfully.")
+        return f"Predicted Probability: {result_df['predicted_probability'][0]:.4f}"
+    except Exception as e:
+        logging.exception("Prediction error")
+        return f"An error occurred: {str(e)}"
+
+# Define Gradio inputs
+inputs = [
+    gr.Number(label="Age"),
+    gr.Textbox(label="Job"),
+    gr.Textbox(label="Marital Status"),
+    gr.Textbox(label="Education"),
+    gr.Textbox(label="Default"),
+    gr.Number(label="Balance"),
+    gr.Textbox(label="Housing"),
+    gr.Textbox(label="Loan"),
+    gr.Textbox(label="Contact"),
+    gr.Number(label="Day"),
+    gr.Textbox(label="Month"),
+    gr.Number(label="Duration"),
+    gr.Number(label="Campaign"),
+    gr.Number(label="Pdays"),
+    gr.Number(label="Previous"),
+    gr.Textbox(label="Poutcome")
+]
+
 iface = gr.Interface(
     fn=make_prediction_for_gradio,
-    # NOTE: You must replace these with the actual features from your model
-    inputs=[gr.Number(label=f"Feature {i+1}") for i in range(10)], # Dummy inputs for demonstration
+    inputs=inputs,
     outputs="text",
     title="LightGBM Prediction App",
-    description="Enter feature values to get a prediction from a pre-trained model."
+    description="Enter feature values to get a probability prediction from the trained model."
 )
 
 if __name__ == "__main__":
-    iface.launch(server_name="0.0.0.0", server_port=7860)
-
+    iface.launch(server_name="0.0.0.0", server_port=8000, share=True)
