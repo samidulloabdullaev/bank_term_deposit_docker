@@ -15,5 +15,5 @@ def load_model(model_path):
         model = joblib.load(model_path)
         return model
     except Exception as e:
-        print(f"Error loading model: {e}")
+        raise ModuleNotFoundError(f"Error loading model: {e}")
         return None

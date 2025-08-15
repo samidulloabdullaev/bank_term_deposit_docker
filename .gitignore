@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Python-generated files
 __pycache__/
 *.py[oc]
@@ -10,3 +11,17 @@ data/sample_submission1.csv
 
 # Virtual environments
 .venv
+=======
+# Python-generated files
+__pycache__/
+*.py[oc]
+data/test_processed.csv
+data/train_processed.csv
+data/submission.csv
+data/sample_submission1.csv
+*.gradio
+*.egg-info
+
+# Virtual environments
+.venv
+>>>>>>> 8cf9ee96aff454713b73361b662be0cf3a3600ee

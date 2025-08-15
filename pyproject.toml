@@ -5,9 +5,6 @@ description = "Machine learning application for bank predictions"
 readme = "README.md"
 requires-python = ">=3.13"
 
-# Explicitly list all Python packages (directories with code) for setuptools
-# Do NOT include non-code folders like data/
-packages = ["preprocessing", "models", "ui", "api", "utils"]
 
 # Dependencies required to run the project
 dependencies = [
