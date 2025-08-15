@@ -1,9 +1,10 @@
 # Python-generated files
 __pycache__/
 *.py[oc]
-data/
+*data/
 *.gradio
 *.egg-info
+*.python-version
 
 # Virtual environments
 .venv
